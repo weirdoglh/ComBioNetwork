@@ -8,6 +8,9 @@ on:
     paths:
     - book/**
 
+permissions:
+  contents: write
+
 # This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
   deploy-book:
@@ -55,4 +58,4 @@ jobs:
       with:
         branch: gh-pages
         folder: book/_build/html
-        token: ${{ secrets.GH_PAT }}
+        # token: ${{ secrets.GH_PAT }}
