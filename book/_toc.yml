@@ -7,8 +7,8 @@ chapters:
 - file: Lab1/index
   sections:
   - file: Lab1/neuron
-#   - file: Lab1/motif
-#   - file: Lab1/STG
+  - file: Lab1/motif
+  - file: Lab1/stg
 # - file: Lab2/index
 #   sections:
 #   - file: Lab2/STG
