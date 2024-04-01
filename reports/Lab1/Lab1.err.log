@@ -1,0 +1,63 @@
+Traceback (most recent call last):
+  File "D:\Tools\Anaconda\envs\manim\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "D:\Tools\Anaconda\envs\manim\Lib\site-packages\nbclient\client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Tools\Anaconda\envs\manim\Lib\site-packages\jupyter_core\utils\__init__.py", line 173, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Tools\Anaconda\envs\manim\Lib\asyncio\base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "D:\Tools\Anaconda\envs\manim\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "D:\Tools\Anaconda\envs\manim\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "D:\Tools\Anaconda\envs\manim\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+#@title Run the following to initialize lab environment.
+import matplotlib.pyplot as plt         # import matplotlib
+from matplotlib.widgets import Slider
+import numpy as np                      # import numpy
+import ipywidgets as widgets            # interactive display
+from google.colab import output
+output.enable_custom_widget_manager()
+
+# setting for figures
+fig_w, fig_h = 8, 6
+my_fontsize = 18
+my_params = {'axes.labelsize': my_fontsize,
+          'axes.titlesize': my_fontsize,
+          'figure.figsize': (fig_w, fig_h),
+          'font.size': my_fontsize,
+          'legend.fontsize': my_fontsize-4,
+          'lines.markersize': 8.,
+          'lines.linewidth': 2.,
+          'xtick.labelsize': my_fontsize-2,
+          'ytick.labelsize': my_fontsize-2}
+
+plt.rcParams.update(my_params)
+my_layout = widgets.Layout()
+
+# Auto Reloading
+%load_ext autoreload
+%autoreload 2
+
+debug = 'google.colab' not in str(get_ipython())
+------------------
+
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [1;32mIn[1], line 5[0m
+[0;32m      3[0m [38;5;28;01mfrom[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mwidgets[39;00m [38;5;28;01mimport[39;00m Slider
+[0;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m                      [38;5;66;03m# import numpy[39;00m
+[1;32m----> 5[0m [38;5;28;01mimport[39;00m [38;5;21;01mipywidgets[39;00m [38;5;28;01mas[39;00m [38;5;21;01mwidgets[39;00m            [38;5;66;03m# interactive display[39;00m
+[0;32m      6[0m [38;5;28;01mfrom[39;00m [38;5;21;01mgoogle[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcolab[39;00m [38;5;28;01mimport[39;00m output
+[0;32m      7[0m output[38;5;241m.[39menable_custom_widget_manager()
+
+[1;31mModuleNotFoundError[0m: No module named 'ipywidgets'
+

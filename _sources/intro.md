@@ -14,7 +14,8 @@ The contents are used for computer labs of the course XX.
 
 ## Prerequisites
 
-Check out the content pages bundled with this sample book to see more.
+## Resources
+* [Neuronal Dynamics](https://neuronaldynamics.epfl.ch/online/index.html)
 
 ```{tableofcontents}
 ```
