@@ -1,4 +1,4 @@
-## Computational model of a neural circuit
+# Computational model of a neural circuit
 
 In this lab, we will introduce the idea of computational modeling. A model is the abstraction of the actual physical world. To study the brain function, the modern approach is to abstract the computation properties of the brain. In other words, we treat the brain as a specialized computation device in computational neuroscience.
 
@@ -17,5 +17,3 @@ In the following sections, we will build models from a single neuron, to a small
 
 ## Resources
 * [Neuronal Dynamics](https://neuronaldynamics.epfl.ch/online/index.html)
-
-<!-- {cite}`prinz2004` -->

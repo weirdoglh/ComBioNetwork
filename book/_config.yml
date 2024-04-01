@@ -4,7 +4,7 @@
 title: Computational Modeling of Biological Neural Network
 author: Lihao Guo, Kumar Arvind
 copyright: Copyright 2024
-logo: logoB.png
+logo: logo.png
 # Patterns to skip when building the book. Can be glob-style (e.g. "*skip.ipynb")
 exclude_patterns            : [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints"]
 # Auto-exclude files not in the toc
