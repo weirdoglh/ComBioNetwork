@@ -1,0 +1,139 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+#@title Run the following to start E-I pair simulation { vertical-output: true }
+# E-I motif
+N = 2                  # number of neurons
+wt, dl = 1, 5.
+
+# updating parameters
+def update_EI(Itype='Icur', neuron_E='tonic_neuron', neuron_I='tonic_neuron', J_ei=0., J_ie=0.):
+    # simualtor
+    h = Simulator(dt=dt)
+
+    # network of neurons
+    nrns = [LIF(sim=h) for _ in range(N)]
+
+    nrns[0].update(neuron_params[neuron_E])
+    nrns[1].update(neuron_params[neuron_I])
+
+    # background noise
+    if Itype == 'Icur':
+        noises = [Current_injector(sim=h, rate=rt, start=int(T/dt*0.1), end=int(T/dt*0.9)) for _ in range(N)]
+    elif Itype == 'Gaussian':
+        noises = [Gaussian_generator(sim=h, mean=rt, std=rt) for _ in range(N)]
+    elif Itype == 'Poisson':
+        noises = [Poisson_generator(sim=h, rate=250) for _ in range(N)]
+    else:
+        print('Invalid input')
+    for noise, nrn in zip(noises, nrns):
+        nrn.connect(noise, {'ctype':'Static', 'weight':wt, 'delay':dl})
+
+    # recurrent connections
+    # tps = [['facilitate']*N]*N
+    tps = [['Static']*N]*N
+    con = np.array([[0., J_ei],
+                    [J_ie, 0.]])
+    dly = np.random.uniform(2., 5., (N,N))
+    synspecs = [[{} for _ in range(N)] for _ in range(N)]
+    for i in range(N):
+        for j in range(N):
+            synspecs[i][j] = {'ctype':tps[i][j], 'weight':con[i,j], 'delay':dly[i,j]}
+    h.connect(nrns, nrns, synspecs)
+
+    # simulation
+    h.run(T)
+
+    # # extract data
+    # bints = np.arange(0, T+1, 20.)
+    # psths = [np.histogram(nrn.spikes['times'], bins=bints)[0] for nrn in nrns]
+
+    # coincidence
+    binwindow = int(5.0/dt)
+    spike_trains = [nrn.states for nrn in nrns]
+    bin_spikes = [np.convolve(strain, np.ones(binwindow), 'same') for strain in spike_trains]
+    deltats = np.linspace(-10., 10., 21)
+    coins = []
+    for delay in deltats:
+        index = int(delay/dt)
+        if index > 0:
+            coins.append(np.dot(bin_spikes[0][:-index], bin_spikes[1][index:]))
+        elif index < 0:
+            coins.append(np.dot(bin_spikes[1][:index], bin_spikes[0][-index:]))
+        else:
+            coins.append(np.dot(bin_spikes[0], bin_spikes[1]))
+    coins = np.array(coins)/np.sqrt(np.dot(bin_spikes[0], bin_spikes[0]))/np.sqrt(np.dot(bin_spikes[1], bin_spikes[1]))
+
+    # visualize
+    plt.clf()
+    cs = ['b', 'r']
+    plt.subplot(2,N,1)
+    plt.title('raster')
+    for nrn, c, l in zip(nrns, cs, range(N)):
+        plt.eventplot(nrn.spikes['times'], lineoffsets=2*l, colors=c)
+    plt.xlabel('Time(ms)')
+    plt.yticks([0, 2], ['E', 'I'])
+    plt.xlim([0., T])
+
+    plt.subplot(2,N,2)
+    plt.title('spike correlation')
+    plt.plot(deltats, coins)
+    plt.xlabel(r'$\delta t$(ms)')
+    plt.ylabel('spike corr')
+    plt.ylim([0, 1])
+
+    # voltage trace
+    for id, c in zip(range(N), cs):
+        plt.subplot(2,N,id+N+1)
+        if id == 0:
+            plt.title('voltage trace')
+        plt_par = {'dt':dt, 'range_t':np.arange(0., T, dt), 'V_th':nrns[id].V_th}
+        plot_volt_trace(plt_par, nrns[id].v, np.array(nrns[id].spikes['times']), c=c)
+        plt.xlim([0., T])
+
+    plt.tight_layout()
+
+try:
+  plt.figure(fig_EI)
+  plt.clf()
+except:
+  print("Init figure")
+
+fig_EI, axes = plt.subplots(2,N,figsize=(5*N,8))
+widgets.interact(update_EI, Itype=['Icur', 'Gaussian', 'Poisson'], 
+                 neuron_E=neuron_params.keys(), neuron_I=neuron_params.keys(), 
+                 J_ie=(0.0, 50.0, 0.1), J_ei=(-50., 0., 0.1));
+------------------
+
+----- stdout -----
+Init figure
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[2], line 101[0m
+[1;32m     97[0m   [38;5;28mprint[39m([38;5;124m"[39m[38;5;124mInit figure[39m[38;5;124m"[39m)
+[1;32m     99[0m fig_EI, axes [38;5;241m=[39m plt[38;5;241m.[39msubplots([38;5;241m2[39m,N,figsize[38;5;241m=[39m([38;5;241m5[39m[38;5;241m*[39mN,[38;5;241m8[39m))
+[1;32m    100[0m widgets[38;5;241m.[39minteract(update_EI, Itype[38;5;241m=[39m[[38;5;124m'[39m[38;5;124mIcur[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mGaussian[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mPoisson[39m[38;5;124m'[39m], 
+[0;32m--> 101[0m                  neuron_E[38;5;241m=[39m[43mneuron_params[49m[38;5;241m.[39mkeys(), neuron_I[38;5;241m=[39mneuron_params[38;5;241m.[39mkeys(), 
+[1;32m    102[0m                  J_ie[38;5;241m=[39m([38;5;241m0.0[39m, [38;5;241m50.0[39m, [38;5;241m0.1[39m), J_ei[38;5;241m=[39m([38;5;241m-[39m[38;5;241m50.[39m, [38;5;241m0.[39m, [38;5;241m0.1[39m));
+
+[0;31mNameError[0m: name 'neuron_params' is not defined
+
