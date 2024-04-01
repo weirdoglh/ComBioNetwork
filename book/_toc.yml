@@ -4,17 +4,17 @@
 format: jb-book
 root: intro
 chapters:
-# - file: lab1/index
+- file: Lab1/index
+  sections:
+  - file: Lab1/neuron
+#   - file: Lab1/motif
+#   - file: Lab1/STG
+# - file: Lab2/index
 #   sections:
-#   - file: lab1/neurons
-#   - file: lab1/motif
-#   - file: lab1/STG
-# - file: lab2/index
-#   sections:
-#   - file: lab2/STG
-#   - file: lab2/Plasticity
-#   - file: lab2/Encoding
-# - file: material
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
+#   - file: Lab2/STG
+#   - file: Lab2/Plasticity
+#   - file: Lab2/Encoding
+- file: material
+# - file: markdown
+# - file: notebooks
+# - file: markdown-notebooks
