@@ -1,0 +1,1422 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lab 1: Computational neurons, synapses, and motifs &#8212; Computational Modeling of Biological Neural Network</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Lab1/Lab1';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logoA.png" class="logo__image only-light" alt="Computational Modeling of Biological Neural Network - Home"/>
+    <script>document.write(`<img src="../_static/logoA.png" class="logo__image only-dark" alt="Computational Modeling of Biological Neural Network - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Computational Modeling of Biological Neural Networks
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../markdown.html">Markdown Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Content with notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/book/Lab1/Lab1.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/executablebooks/jupyter-book/blob/master/book/Lab1/Lab1.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FLab1/Lab1.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Lab1/Lab1.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Lab 1: Computational neurons, synapses, and motifs</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neuron-model">Neuron model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#firing-patterns-of-a-single-neuron-15min">Firing patterns of a single neuron (15min)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#describe">Describe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus">Bonus</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#think">Think</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equations">Equations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synapse-model-5min">Synapse model (5min)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Describe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Think</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-activities-5min">Input activities (5min)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Bonus</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motifs">Motifs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functional-neural-motifs-20min">Functional neural motifs (20min)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Describe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-a-pair-of-neurons-the-influence-of-connections-is-straight-forward-how-will-the-situation-change-if-adding-one-more-neuron-in-the-lab-we-introduce-one-arbitrary-triplet-motif-with-only-inhibitory-connections">For a pair of neurons, the influence of connections is straight-forward. <em>How will the situation change if adding one more neuron?</em> In the lab, we introduce one arbitrary triplet motif with only inhibitory connections.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Describe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Think</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-the-pyloric-circuit-30min">Constructing the pyloric circuit (30min)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Describe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Think</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="lab-1-computational-neurons-synapses-and-motifs">
+<h1>Lab 1: Computational neurons, synapses, and motifs<a class="headerlink" href="#lab-1-computational-neurons-synapses-and-motifs" title="Link to this heading">#</a></h1>
+<p>(The tutorial is inspired by the Neuronal Dynamics book from Wulfram Gerstner, Werner M. Kistler, Richard Naud and Liam Paninski. <a class="reference external" href="https://neuronaldynamics.epfl.ch/online/index.html">https://neuronaldynamics.epfl.ch/online/index.html</a>)</p>
+<section id="neuron-model">
+<h2>Neuron model<a class="headerlink" href="#neuron-model" title="Link to this heading">#</a></h2>
+<p>In this session, we will move from a biological neuron to a simpler phenomenological neuron in which we retain the key features of a neuron i.e. spikes and spike patterns.</p>
+<p>We will use a neuron model called the adaptive leaky-and-integrate firing neuron. Using this neuron you will get more insights into the origin of different types of spikes patterns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Run the following to initialize lab environment.</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>         <span class="c1"># import matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib.widgets</span> <span class="kn">import</span> <span class="n">Slider</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>                      <span class="c1"># import numpy</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>            <span class="c1"># interactive display</span>
+<span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">output</span>
+<span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="c1"># setting for figures</span>
+<span class="n">fig_w</span><span class="p">,</span> <span class="n">fig_h</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span>
+<span class="n">my_fontsize</span> <span class="o">=</span> <span class="mi">18</span>
+<span class="n">my_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="n">my_fontsize</span><span class="p">,</span>
+          <span class="s1">&#39;axes.titlesize&#39;</span><span class="p">:</span> <span class="n">my_fontsize</span><span class="p">,</span>
+          <span class="s1">&#39;figure.figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">fig_w</span><span class="p">,</span> <span class="n">fig_h</span><span class="p">),</span>
+          <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="n">my_fontsize</span><span class="p">,</span>
+          <span class="s1">&#39;legend.fontsize&#39;</span><span class="p">:</span> <span class="n">my_fontsize</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span>
+          <span class="s1">&#39;lines.markersize&#39;</span><span class="p">:</span> <span class="mf">8.</span><span class="p">,</span>
+          <span class="s1">&#39;lines.linewidth&#39;</span><span class="p">:</span> <span class="mf">2.</span><span class="p">,</span>
+          <span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">:</span> <span class="n">my_fontsize</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span>
+          <span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">:</span> <span class="n">my_fontsize</span><span class="o">-</span><span class="mi">2</span><span class="p">}</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">my_params</span><span class="p">)</span>
+<span class="n">my_layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+
+<span class="c1"># Auto Reloading</span>
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="n">debug</span> <span class="o">=</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span> <span class="nn">matplotlib.widgets</span> <span class="kn">import</span> <span class="n">Slider</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>                      <span class="c1"># import numpy</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>            <span class="c1"># interactive display</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">output</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">output</span><span class="o">.</span><span class="n">enable_custom_widget_manager</span><span class="p">()</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;ipywidgets&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Run the following to download necessary files.</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+
+    <span class="c1"># clone respository</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="s2">&quot;michaelglh&quot;</span>
+    <span class="n">repo</span> <span class="o">=</span> <span class="s2">&quot;STG&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">repo</span><span class="p">):</span>
+        <span class="o">!</span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="o">{</span>repo<span class="o">}</span>
+    <span class="o">!</span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/<span class="o">{</span>user<span class="o">}</span>/<span class="o">{</span>repo<span class="o">}</span>.git
+
+    <span class="c1"># add path to system</span>
+    <span class="n">src_dir</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">repo</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">src_dir</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>ipympl<span class="w"> </span>--quiet
+
+<span class="kn">from</span> <span class="nn">lib.neuron</span> <span class="kn">import</span> <span class="n">LIF</span>
+<span class="kn">from</span> <span class="nn">lib.input</span> <span class="kn">import</span> <span class="n">Poisson_generator</span><span class="p">,</span> <span class="n">Gaussian_generator</span><span class="p">,</span> <span class="n">Current_injector</span>
+<span class="kn">from</span> <span class="nn">lib.conn</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">lib.helper</span> <span class="kn">import</span> <span class="n">plot_volt_trace</span>
+    
+<span class="o">%</span><span class="k">matplotlib</span> widget
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cloning into &#39;STG&#39;...
+remote: Enumerating objects: 314, done.
+remote: Counting objects: 100% (314/314), done.
+remote: Compressing objects: 100% (203/203), done.
+remote: Total 314 (delta 180), reused 244 (delta 110), pack-reused 0
+Receiving objects: 100% (314/314), 23.56 MiB | 11.12 MiB/s, done.
+Resolving deltas: 100% (180/180), done.
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">511.6/511.6 kB</span> <span class=" -Color -Color-Red">4.3 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">1.6/1.6 MB</span> <span class=" -Color -Color-Red">31.9 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25h
+</pre></div>
+</div>
+</div>
+</div>
+<section id="firing-patterns-of-a-single-neuron-15min">
+<h3>Firing patterns of a single neuron (15min)<a class="headerlink" href="#firing-patterns-of-a-single-neuron-15min" title="Link to this heading">#</a></h3>
+<p>Here we have a simple neuron model with 5 parameters. Two of them are just the parameters for LIF neuron and three of them captures the adaptation behavior. In addition to these parameters, the input level of current injection can be changed. So we essentially 6 parameters to control this single neuron.</p>
+<p>John von Neumann famously said that with four parameters I can fit an elephant and with six I can make it wiggle its trunk. Well, let’s see what we can do with six parameters in terms of generating biologically plausible firing patterns of a neuron.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Run the following to start the simulation of single neuron { vertical-output: true }</span>
+<span class="n">T</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mf">5e2</span><span class="p">,</span> <span class="mf">0.1</span>    <span class="c1"># simulation period(ms), step size(ms)</span>
+<span class="n">wt</span><span class="p">,</span> <span class="n">dl</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">5.</span>
+<span class="n">rt</span> <span class="o">=</span> <span class="mf">65.</span>
+
+<span class="c1"># simualtor</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
+
+<span class="c1"># neurons</span>
+<span class="n">nrn</span> <span class="o">=</span> <span class="n">LIF</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
+<span class="n">nrn</span><span class="o">.</span><span class="n">g_L</span> <span class="o">=</span> <span class="mf">2.</span>
+<span class="n">nrn</span><span class="o">.</span><span class="n">E_L</span> <span class="o">=</span> <span class="o">-</span><span class="mf">70.</span>
+<span class="n">nrn</span><span class="o">.</span><span class="n">V_th</span> <span class="o">=</span> <span class="o">-</span><span class="mf">40.</span>
+
+<span class="n">tonic_neuron</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tau_m&#39;</span><span class="p">:</span><span class="mf">20.</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;tau_w&#39;</span><span class="p">:</span><span class="mf">30.</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mf">3.</span><span class="p">,</span> <span class="s1">&#39;V_reset&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">55.</span><span class="p">}</span>
+<span class="n">adapting_neuron</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tau_m&#39;</span><span class="p">:</span><span class="mf">20.</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;tau_w&#39;</span><span class="p">:</span><span class="mf">100.</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;V_reset&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">55.</span><span class="p">}</span>
+<span class="n">initburst_neuron</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tau_m&#39;</span><span class="p">:</span><span class="mf">10.</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;tau_w&#39;</span><span class="p">:</span><span class="mf">100.</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;V_reset&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">50.</span><span class="p">}</span>
+<span class="n">bursting_neuron</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tau_m&#39;</span><span class="p">:</span><span class="mf">5.</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;tau_w&#39;</span><span class="p">:</span><span class="mf">100.</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;V_reset&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">46.</span><span class="p">}</span>
+<span class="n">irregular_neuron</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tau_m&#39;</span><span class="p">:</span><span class="mf">10.</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="s1">&#39;tau_w&#39;</span><span class="p">:</span><span class="mf">50.</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mf">1.2</span><span class="p">,</span> <span class="s1">&#39;V_reset&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">46.</span><span class="p">}</span>
+<span class="n">transient_neuron</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tau_m&#39;</span><span class="p">:</span><span class="mf">5.</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mf">0.05</span><span class="p">,</span> <span class="s1">&#39;tau_w&#39;</span><span class="p">:</span><span class="mf">100.</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mf">0.7</span><span class="p">,</span> <span class="s1">&#39;V_reset&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">60.</span><span class="p">}</span>
+<span class="n">delayed_neuron</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tau_m&#39;</span><span class="p">:</span><span class="mf">5.</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;tau_w&#39;</span><span class="p">:</span><span class="mf">100.</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;V_reset&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">60.</span><span class="p">}</span>
+
+<span class="n">neuron_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tonic_neuron&#39;</span><span class="p">:</span> <span class="n">tonic_neuron</span><span class="p">,</span> <span class="s1">&#39;adapting_neuron&#39;</span><span class="p">:</span> <span class="n">adapting_neuron</span><span class="p">,</span> 
+                 <span class="s1">&#39;initburst_neuron&#39;</span><span class="p">:</span> <span class="n">initburst_neuron</span><span class="p">,</span> <span class="s1">&#39;bursting_neuron&#39;</span><span class="p">:</span> <span class="n">bursting_neuron</span><span class="p">,</span> 
+                 <span class="s1">&#39;irregular_neuron&#39;</span><span class="p">:</span> <span class="n">irregular_neuron</span><span class="p">,</span> <span class="s1">&#39;transient_neuron&#39;</span><span class="p">:</span> <span class="n">transient_neuron</span><span class="p">,</span> 
+                 <span class="s1">&#39;delayed_neuron&#39;</span><span class="p">:</span> <span class="n">delayed_neuron</span><span class="p">,</span> <span class="s1">&#39;my_neuron&#39;</span><span class="p">:</span> <span class="n">tonic_neuron</span><span class="p">}</span>
+<span class="c1"># tonic</span>
+<span class="n">nrn</span><span class="o">.</span><span class="n">tau_m</span> <span class="o">=</span> <span class="mf">20.</span>
+<span class="n">nrn</span><span class="o">.</span><span class="n">tau_w</span> <span class="o">=</span> <span class="mf">30.</span>
+<span class="n">nrn</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">nrn</span><span class="o">.</span><span class="n">V_reset</span> <span class="o">=</span> <span class="o">-</span><span class="mf">55.</span>
+
+<span class="c1"># current injection</span>
+<span class="n">cur_in</span> <span class="o">=</span> <span class="n">Current_injector</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="n">rt</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.9</span><span class="p">))</span>
+<span class="n">nrn</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">cur_in</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;ctype&#39;</span><span class="p">:</span><span class="s1">&#39;Static&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="n">wt</span><span class="p">,</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span><span class="n">dl</span><span class="p">})</span>
+
+<span class="c1"># updating parameters</span>
+<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">Icur</span><span class="o">=</span><span class="mf">65.</span><span class="p">,</span> <span class="n">tau_m</span><span class="o">=</span><span class="mf">20.</span><span class="p">,</span> <span class="n">V_reset</span><span class="o">=-</span><span class="mf">55.</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">tau_w</span><span class="o">=</span><span class="mf">30.</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">neuron_type</span><span class="o">=</span><span class="s1">&#39;my_neuron&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">neuron_type</span> <span class="o">==</span> <span class="s1">&#39;my_neuron&#39;</span><span class="p">:</span>
+      <span class="n">neuron_params</span><span class="p">[</span><span class="s1">&#39;my_neuron&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tau_m&#39;</span><span class="p">:</span><span class="n">tau_m</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="n">a</span><span class="p">,</span> <span class="s1">&#39;tau_w&#39;</span><span class="p">:</span><span class="n">tau_w</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;V_reset&#39;</span><span class="p">:</span><span class="n">V_reset</span><span class="p">}</span>
+    <span class="n">nrn</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">neuron_params</span><span class="p">[</span><span class="n">neuron_type</span><span class="p">])</span>
+
+    <span class="c1"># constant current injection</span>
+    <span class="n">cur_in</span><span class="o">.</span><span class="n">rate</span> <span class="o">=</span> <span class="n">Icur</span>
+
+    <span class="c1"># simulate</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># visualize</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;firing patterns&#39;</span><span class="p">)</span>
+    <span class="n">plt_par</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dt&#39;</span><span class="p">:</span><span class="n">dt</span><span class="p">,</span> <span class="s1">&#39;range_t&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">),</span> <span class="s1">&#39;V_th&#39;</span><span class="p">:</span><span class="n">nrn</span><span class="o">.</span><span class="n">V_th</span><span class="p">}</span>
+    <span class="n">plot_volt_trace</span><span class="p">(</span><span class="n">plt_par</span><span class="p">,</span> <span class="n">nrn</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nrn</span><span class="o">.</span><span class="n">spikes</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">]))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">350</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">80</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fig_nrn</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Init figure&#39;</span><span class="p">)</span>
+<span class="n">fig_nrn</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">widgets</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">update</span><span class="p">,</span> <span class="n">neuron_type</span><span class="o">=</span><span class="n">neuron_params</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">tau_m</span><span class="o">=</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">),</span> <span class="n">tau_w</span><span class="o">=</span><span class="p">(</span><span class="mf">30.</span><span class="p">,</span> <span class="mf">120.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">),</span> <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">V_reset</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">60.</span><span class="p">,</span> <span class="o">-</span><span class="mf">40.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">),</span> <span class="n">Icur</span><span class="o">=</span><span class="p">(</span><span class="mf">5.</span><span class="p">,</span> <span class="mf">70.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="describe">
+<h2>Describe<a class="headerlink" href="#describe" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>How are the parameters Icur, V_reset, τm affecting the neuron’s activity?</p></li>
+<li><p>How are the adaptation parameters a,b,τw affecting the neuron’s activity?</p></li>
+<li><p>Can you tune all the six parameters to find some unique firing patterns?</p></li>
+<li><p>What are the most important variables of the model, in the sense that they change the firing pattern in a qualitatively different manner e.g. from regular spiking to bursting?</p></li>
+</ul>
+</section>
+<section id="bonus">
+<h2>Bonus<a class="headerlink" href="#bonus" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Which other spike patterns can you imagine?</p></li>
+</ul>
+</section>
+<section id="think">
+<h2>Think<a class="headerlink" href="#think" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>We often try to describe a neuron with its input current and output firing rate curve. Can we define such a relationship for a neuron when it is either bursting or showing firing rate adapataion. If not, what can be done to describe the neuron’s behavior?</p></li>
+</ul>
+<section id="equations">
+<h3>Equations<a class="headerlink" href="#equations" title="Link to this heading">#</a></h3>
+<p>Neuron dynamaics: let’s open the balckbox of the neuron</p>
+<div class="math notranslate nohighlight">
+\[\tau_m \frac{dV}{dt} = -(V-V_{rest}) + \Delta_T exp(\frac{V-V_{rh}}{\Delta_T}) - Rw + RI(t)\]</div>
+<div class="math notranslate nohighlight">
+\[\tau_w \frac{dw}{dt} = a(V-V_{rest}) -w + b
+\tau_w \sum_{t^{(f)}} \delta(t-t^{(f)})\]</div>
+<p>It’s described by two variables <span class="math notranslate nohighlight">\(V\)</span> and <span class="math notranslate nohighlight">\(w\)</span> which denote the membrane potential and adaptation current. The parameters <span class="math notranslate nohighlight">\(a, b, \tau_w\)</span> controls the behavior of adaptation where <span class="math notranslate nohighlight">\(a\)</span> controls sub-threshold adaptation and <span class="math notranslate nohighlight">\(b, \tau_w\)</span> controls spike adaptation. For detailed explanation of this mode, refer tht book we mentioned at the beginning.</p>
+</section>
+</section>
+<section id="synapse-model-5min">
+<h2>Synapse model (5min)<a class="headerlink" href="#synapse-model-5min" title="Link to this heading">#</a></h2>
+<p>In the following we connected two neurons with an excitatory synapses. The synapse can be</p>
+<ul class="simple">
+<li><p>Static: The synaptic weight (amplitude) remains constant irrespective of the input rate</p></li>
+<li><p>Short-term facilitation: The synaptic weight increases with every spike. The increase is dependent on the firing rate of the pre-synaptic neuron.</p></li>
+<li><p>Short-term depression: The synaptic weight decreases with every spike. The decrease is dependent on the firing rate of the pre-synaptic neuron.</p></li>
+</ul>
+<p>Finally, we have a gap junction that pre-synaptic neuron and post-synaptic neuron are electricially coupled.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Run the following to start synapse simulation { vertical-output: true }</span>
+<span class="n">rt</span> <span class="o">=</span> <span class="mf">100.</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">2</span>                  <span class="c1"># number of neurons</span>
+    
+<span class="c1"># input types</span>
+<span class="n">Itypes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Icur&#39;</span><span class="p">,</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">,</span> <span class="s1">&#39;Poisson&#39;</span><span class="p">]</span>
+
+<span class="c1"># connection types</span>
+<span class="n">Ctypes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Static&#39;</span><span class="p">,</span> <span class="s1">&#39;Faci&#39;</span><span class="p">,</span> <span class="s1">&#39;Depr&#39;</span><span class="p">,</span> <span class="s1">&#39;Gap&#39;</span><span class="p">]</span> 
+
+<span class="c1"># updating parameters</span>
+<span class="k">def</span> <span class="nf">update_syn</span><span class="p">(</span><span class="n">c_ie</span><span class="o">=</span><span class="s1">&#39;Static&#39;</span><span class="p">):</span>   
+    <span class="c1"># simualtor</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>  
+
+    <span class="c1"># network of neurons</span>
+    <span class="n">nrns</span> <span class="o">=</span> <span class="p">[</span><span class="n">LIF</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+
+    <span class="n">nrns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tonic_neuron</span><span class="p">)</span>
+    <span class="n">nrns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tonic_neuron</span><span class="p">)</span>
+
+    <span class="c1"># background noise</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">Current_injector</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="n">rt</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.9</span><span class="p">))</span>
+    <span class="n">nrns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">noise</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;ctype&#39;</span><span class="p">:</span><span class="s1">&#39;Static&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span><span class="n">wt</span><span class="p">,</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span><span class="n">dl</span><span class="p">})</span>
+
+    <span class="c1"># recurrent connections</span>
+    <span class="n">tps</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Static&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="n">N</span>
+    <span class="n">J_ei</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">tps</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c_ie</span>
+    <span class="k">if</span> <span class="n">c_ie</span> <span class="o">==</span> <span class="s1">&#39;Gap&#39;</span><span class="p">:</span>
+        <span class="n">J_ie</span> <span class="o">=</span> <span class="n">J_ei</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">tps</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tps</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c_ie</span>
+    <span class="k">elif</span> <span class="n">c_ie</span> <span class="o">==</span> <span class="s1">&#39;Static&#39;</span><span class="p">:</span>
+        <span class="n">J_ie</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">c_ie</span> <span class="o">==</span> <span class="s1">&#39;Faci&#39;</span><span class="p">:</span>
+        <span class="n">J_ie</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">c_ie</span> <span class="o">==</span> <span class="s1">&#39;Depr&#39;</span><span class="p">:</span>
+        <span class="n">J_ie</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="n">J_ei</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">J_ie</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])</span>
+    <span class="n">dly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+    <span class="n">synspecs</span> <span class="o">=</span> <span class="p">[[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">synspecs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ctype&#39;</span><span class="p">:</span><span class="n">tps</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">],</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span><span class="n">dly</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]}</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">nrns</span><span class="p">,</span> <span class="n">nrns</span><span class="p">,</span> <span class="n">synspecs</span><span class="p">)</span>
+
+    <span class="c1"># simulation</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># coincidence</span>
+    <span class="n">binwindow</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">5.0</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">spike_trains</span> <span class="o">=</span> <span class="p">[</span><span class="n">nrn</span><span class="o">.</span><span class="n">states</span> <span class="k">for</span> <span class="n">nrn</span> <span class="ow">in</span> <span class="n">nrns</span><span class="p">]</span>
+    <span class="n">bin_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">strain</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">binwindow</span><span class="p">),</span> <span class="s1">&#39;same&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">strain</span> <span class="ow">in</span> <span class="n">spike_trains</span><span class="p">]</span>
+    <span class="n">deltats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+    <span class="n">coins</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">delay</span> <span class="ow">in</span> <span class="n">deltats</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">delay</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">coins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="n">index</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">index</span><span class="p">:]))</span>
+        <span class="k">elif</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">coins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="n">index</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="n">index</span><span class="p">:]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">coins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">invalid</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">):</span>
+        <span class="n">coins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coins</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+
+    <span class="c1"># visualize</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;raster&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">nrn</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nrns</span><span class="p">,</span> <span class="n">cs</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">eventplot</span><span class="p">(</span><span class="n">nrn</span><span class="o">.</span><span class="n">spikes</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">],</span> <span class="n">lineoffsets</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">Hz&#39;</span><span class="o">%</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nrn</span><span class="o">.</span><span class="n">spikes</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">])</span><span class="o">/</span><span class="n">T</span><span class="o">*</span><span class="mf">1e3</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time(ms)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;N_src&#39;</span><span class="p">,</span> <span class="s1">&#39;N_tar&#39;</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="c1"># plt.subplot(2,N,2)</span>
+    <span class="c1"># plt.title(&#39;spike correlation&#39;)</span>
+    <span class="c1"># plt.plot(deltats, coins)</span>
+    <span class="c1"># plt.xlabel(r&#39;$\delta t$(ms)&#39;)</span>
+    <span class="c1"># plt.ylabel(&#39;spike corr&#39;)</span>
+    <span class="c1"># plt.ylim([0, 1])</span>
+
+    <span class="c1"># voltage traces</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">cs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;voltage trace&#39;</span><span class="p">)</span>
+        <span class="n">plt_par</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dt&#39;</span><span class="p">:</span><span class="n">dt</span><span class="p">,</span> <span class="s1">&#39;range_t&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">),</span> <span class="s1">&#39;V_th&#39;</span><span class="p">:</span><span class="n">nrns</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">V_th</span><span class="p">}</span>
+        <span class="n">plot_volt_trace</span><span class="p">(</span><span class="n">plt_par</span><span class="p">,</span> <span class="n">nrns</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nrns</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">spikes</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">]),</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span>
+
+    <span class="c1"># # gap junction</span>
+    <span class="c1"># plt.subplot(2,N,N+2)</span>
+    <span class="c1"># plt_par = {&#39;dt&#39;:dt, &#39;V_ths&#39;:[nrn.V_th for nrn in nrns]}</span>
+    <span class="c1"># pair_volt_trace(plt_par, [nrn.v for nrn in nrns], [np.array(nrn.spikes[&#39;times&#39;]) for nrn in nrns])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fig_syn</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Init figure&#39;</span><span class="p">)</span>
+
+<span class="n">fig_syn</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">widgets</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">update_syn</span><span class="p">,</span> <span class="n">c_ie</span><span class="o">=</span><span class="n">Ctypes</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h2>Describe<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>What do you notice about lag (time delay) when comparing chemical synapse types with gap junctions?</p></li>
+<li><p>Biologically, synapses are not fixed. What short-term dynamics can you observe?</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>Think<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>If synapses change all the time, what constitutes a stable network? How variable should the synapses be in long term?</p></li>
+</ul>
+</section>
+<section id="input-activities-5min">
+<h2>Input activities (5min)<a class="headerlink" href="#input-activities-5min" title="Link to this heading">#</a></h2>
+<p>We’ll model the input activities with three simple forms. Think about their biological relavence.</p>
+<ul class="simple">
+<li><p>Constant current injection which models the traditional injection experiment</p></li>
+<li><p>Gaussian background noise which models the fluctuation of noisy inputs</p></li>
+<li><p>Spike train which models the signal transmission from presynaptic neuron to post-synaptic neuron</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Run the following to start input simulation { vertical-output: true }</span>
+
+<span class="c1"># updating parameters</span>
+<span class="k">def</span> <span class="nf">update_inp</span><span class="p">(</span><span class="n">Itype</span><span class="o">=</span><span class="s1">&#39;Icur&#39;</span><span class="p">):</span>
+    <span class="c1"># simualtor</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="c1"># background noise</span>
+    <span class="k">if</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Icur&#39;</span><span class="p">:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">Current_injector</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.9</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">Gaussian_generator</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">50.0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Poisson&#39;</span><span class="p">:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">Poisson_generator</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">50.0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid input&#39;</span><span class="p">)</span>
+
+    <span class="n">h</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># visualize</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Icur&#39;</span><span class="p">:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">noise</span><span class="o">.</span><span class="n">Is</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;time (ms)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;I (nA)&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">noise</span><span class="o">.</span><span class="n">Is</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;time (ms)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;I (nA)&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Poisson&#39;</span><span class="p">:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">noise</span><span class="o">.</span><span class="n">spike_train</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;time (ms)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;spike&#39;</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fig_inp</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Init figure&#39;</span><span class="p">)</span>
+
+<span class="n">fig_inp</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">widgets</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">update_inp</span><span class="p">,</span> <span class="n">Itype</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Icur&#39;</span><span class="p">,</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">,</span> <span class="s1">&#39;Poisson&#39;</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>Bonus<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>How would you model the input activities computationally?</p></li>
+<li><p>How would you measure the input activities experimentally?</p></li>
+</ul>
+</section>
+<section id="motifs">
+<h2>Motifs<a class="headerlink" href="#motifs" title="Link to this heading">#</a></h2>
+<section id="functional-neural-motifs-20min">
+<h3>Functional neural motifs (20min)<a class="headerlink" href="#functional-neural-motifs-20min" title="Link to this heading">#</a></h3>
+<p>In this section, we move one step forward to connect those single neurons. What will happend with a pair of neurons? How about a triplet of neurons? Even more, a network of neurons?</p>
+<p>We’ll start with a simple neuron pair motif to introduce basic ideas of circuit level interactions.</p>
+<img src="https://github.com/michaelglh/STG/blob/master/figs/EI.png?raw=1" alt="EI motif" width="300"/><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Run the following to start E-I pair simulation { vertical-output: true }</span>
+<span class="c1"># E-I motif</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">2</span>                  <span class="c1"># number of neurons</span>
+<span class="n">wt</span><span class="p">,</span> <span class="n">dl</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">5.</span>
+
+<span class="c1"># updating parameters</span>
+<span class="k">def</span> <span class="nf">update_EI</span><span class="p">(</span><span class="n">Itype</span><span class="o">=</span><span class="s1">&#39;Icur&#39;</span><span class="p">,</span> <span class="n">neuron_E</span><span class="o">=</span><span class="s1">&#39;tonic_neuron&#39;</span><span class="p">,</span> <span class="n">neuron_I</span><span class="o">=</span><span class="s1">&#39;tonic_neuron&#39;</span><span class="p">,</span> <span class="n">J_ei</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">J_ie</span><span class="o">=</span><span class="mf">0.</span><span class="p">):</span>
+    <span class="c1"># simualtor</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="c1"># network of neurons</span>
+    <span class="n">nrns</span> <span class="o">=</span> <span class="p">[</span><span class="n">LIF</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+
+    <span class="n">nrns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">neuron_params</span><span class="p">[</span><span class="n">neuron_E</span><span class="p">])</span>
+    <span class="n">nrns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">neuron_params</span><span class="p">[</span><span class="n">neuron_I</span><span class="p">])</span>
+
+    <span class="c1"># background noise</span>
+    <span class="k">if</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Icur&#39;</span><span class="p">:</span>
+        <span class="n">noises</span> <span class="o">=</span> <span class="p">[</span><span class="n">Current_injector</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="n">rt</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.9</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">elif</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">:</span>
+        <span class="n">noises</span> <span class="o">=</span> <span class="p">[</span><span class="n">Gaussian_generator</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">rt</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="n">rt</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">elif</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Poisson&#39;</span><span class="p">:</span>
+        <span class="n">noises</span> <span class="o">=</span> <span class="p">[</span><span class="n">Poisson_generator</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid input&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">noise</span><span class="p">,</span> <span class="n">nrn</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">noises</span><span class="p">,</span> <span class="n">nrns</span><span class="p">):</span>
+        <span class="n">nrn</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">noise</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;ctype&#39;</span><span class="p">:</span><span class="s1">&#39;Static&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span><span class="n">wt</span><span class="p">,</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span><span class="n">dl</span><span class="p">})</span>
+
+    <span class="c1"># recurrent connections</span>
+    <span class="c1"># tps = [[&#39;facilitate&#39;]*N]*N</span>
+    <span class="n">tps</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Static&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="n">N</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="n">J_ei</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">J_ie</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])</span>
+    <span class="n">dly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+    <span class="n">synspecs</span> <span class="o">=</span> <span class="p">[[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">synspecs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ctype&#39;</span><span class="p">:</span><span class="n">tps</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">],</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span><span class="n">dly</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]}</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">nrns</span><span class="p">,</span> <span class="n">nrns</span><span class="p">,</span> <span class="n">synspecs</span><span class="p">)</span>
+
+    <span class="c1"># simulation</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># # extract data</span>
+    <span class="c1"># bints = np.arange(0, T+1, 20.)</span>
+    <span class="c1"># psths = [np.histogram(nrn.spikes[&#39;times&#39;], bins=bints)[0] for nrn in nrns]</span>
+
+    <span class="c1"># coincidence</span>
+    <span class="n">binwindow</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">5.0</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">spike_trains</span> <span class="o">=</span> <span class="p">[</span><span class="n">nrn</span><span class="o">.</span><span class="n">states</span> <span class="k">for</span> <span class="n">nrn</span> <span class="ow">in</span> <span class="n">nrns</span><span class="p">]</span>
+    <span class="n">bin_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">strain</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">binwindow</span><span class="p">),</span> <span class="s1">&#39;same&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">strain</span> <span class="ow">in</span> <span class="n">spike_trains</span><span class="p">]</span>
+    <span class="n">deltats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+    <span class="n">coins</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">delay</span> <span class="ow">in</span> <span class="n">deltats</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">delay</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">coins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="n">index</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">index</span><span class="p">:]))</span>
+        <span class="k">elif</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">coins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="n">index</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="n">index</span><span class="p">:]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">coins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">coins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="c1"># visualize</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;raster&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">nrn</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nrns</span><span class="p">,</span> <span class="n">cs</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">eventplot</span><span class="p">(</span><span class="n">nrn</span><span class="o">.</span><span class="n">spikes</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">],</span> <span class="n">lineoffsets</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time(ms)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;spike correlation&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">deltats</span><span class="p">,</span> <span class="n">coins</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\delta t$(ms)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;spike corr&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># voltage trace</span>
+    <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">cs</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="nb">id</span><span class="o">+</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;voltage trace&#39;</span><span class="p">)</span>
+        <span class="n">plt_par</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dt&#39;</span><span class="p">:</span><span class="n">dt</span><span class="p">,</span> <span class="s1">&#39;range_t&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">),</span> <span class="s1">&#39;V_th&#39;</span><span class="p">:</span><span class="n">nrns</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">V_th</span><span class="p">}</span>
+        <span class="n">plot_volt_trace</span><span class="p">(</span><span class="n">plt_par</span><span class="p">,</span> <span class="n">nrns</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nrns</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">spikes</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">]),</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fig_EI</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Init figure&quot;</span><span class="p">)</span>
+
+<span class="n">fig_EI</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">widgets</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">update_EI</span><span class="p">,</span> <span class="n">Itype</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Icur&#39;</span><span class="p">,</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">,</span> <span class="s1">&#39;Poisson&#39;</span><span class="p">],</span> 
+                 <span class="n">neuron_E</span><span class="o">=</span><span class="n">neuron_params</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">neuron_I</span><span class="o">=</span><span class="n">neuron_params</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> 
+                 <span class="n">J_ie</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">J_ei</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">50.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>Describe<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>How are the excitatory and inhibitory synapse (connection) influence the firing rate of other neuron?</p></li>
+<li><p>How does the spike correlation change and why? Does input type change the shape of correlation?</p></li>
+<li><p>What pattern do you observe at the motif level? How about changing the neuron types?</p></li>
+<li><p>If we drive the neurons with Poisson type inputs, they spike in an irregular manner. But can you find the connection weight which will make them spike in a periodic manner?</p></li>
+</ul>
+<section id="for-a-pair-of-neurons-the-influence-of-connections-is-straight-forward-how-will-the-situation-change-if-adding-one-more-neuron-in-the-lab-we-introduce-one-arbitrary-triplet-motif-with-only-inhibitory-connections">
+<h3>For a pair of neurons, the influence of connections is straight-forward. <em>How will the situation change if adding one more neuron?</em> In the lab, we introduce one arbitrary triplet motif with only inhibitory connections.<a class="headerlink" href="#for-a-pair-of-neurons-the-influence-of-connections-is-straight-forward-how-will-the-situation-change-if-adding-one-more-neuron-in-the-lab-we-introduce-one-arbitrary-triplet-motif-with-only-inhibitory-connections" title="Link to this heading">#</a></h3>
+<img src="https://github.com/michaelglh/STG/blob/master/figs/EII.png?raw=1" alt="EII motif" width="300"/>
+<!-- Anatomical Divegent and Convergent
+
+Functional Inhibitory;Disinhibitory --><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Run the following start E-I-I triplet simulation { vertical-output: true }</span>
+<span class="c1"># Triplet</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">3</span>                  <span class="c1"># number of neurons</span>
+<span class="n">wt</span><span class="p">,</span> <span class="n">dl</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">5.</span>
+<span class="n">rt</span> <span class="o">=</span> <span class="mf">65.0</span>
+
+<span class="c1"># updating parameters</span>
+<span class="k">def</span> <span class="nf">update_EII</span><span class="p">(</span><span class="n">Itype</span><span class="o">=</span><span class="s1">&#39;Icur&#39;</span><span class="p">,</span> <span class="n">neuron_E</span><span class="o">=</span><span class="s1">&#39;tonic_neuron&#39;</span><span class="p">,</span> <span class="n">neuron_I1</span><span class="o">=</span><span class="s1">&#39;tonic_neuron&#39;</span><span class="p">,</span> <span class="n">neuron_I2</span><span class="o">=</span><span class="s1">&#39;tonic_neuron&#39;</span><span class="p">,</span> <span class="n">J_E1</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">J_E2</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">J_21</span><span class="o">=</span><span class="mf">0.</span><span class="p">):</span>
+    <span class="c1"># simualtor</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="c1"># network of neurons</span>
+    <span class="n">nrns</span> <span class="o">=</span> <span class="p">[</span><span class="n">LIF</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="n">nrns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">neuron_params</span><span class="p">[</span><span class="n">neuron_E</span><span class="p">])</span>
+    <span class="n">nrns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">neuron_params</span><span class="p">[</span><span class="n">neuron_I1</span><span class="p">])</span>
+    <span class="n">nrns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">neuron_params</span><span class="p">[</span><span class="n">neuron_I2</span><span class="p">])</span>
+
+    <span class="c1"># background noise</span>
+    <span class="k">if</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Icur&#39;</span><span class="p">:</span>
+        <span class="n">noises</span> <span class="o">=</span> <span class="p">[</span><span class="n">Current_injector</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="n">rt</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.9</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">elif</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">:</span>
+        <span class="n">noises</span> <span class="o">=</span> <span class="p">[</span><span class="n">Gaussian_generator</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">rt</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="n">rt</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">elif</span> <span class="n">Itype</span> <span class="o">==</span> <span class="s1">&#39;Poisson&#39;</span><span class="p">:</span>
+        <span class="n">noises</span> <span class="o">=</span> <span class="p">[</span><span class="n">Poisson_generator</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid input&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">noise</span><span class="p">,</span> <span class="n">nrn</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">noises</span><span class="p">,</span> <span class="n">nrns</span><span class="p">):</span>
+        <span class="n">nrn</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">noise</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;ctype&#39;</span><span class="p">:</span><span class="s1">&#39;Static&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span><span class="n">wt</span><span class="p">,</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span><span class="n">dl</span><span class="p">})</span>
+
+    <span class="c1"># recurrent connections</span>
+    <span class="c1"># tps = [[&#39;facilitate&#39;]*N]*N</span>
+    <span class="n">tps</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Static&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="n">N</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="n">J_E1</span><span class="p">,</span> <span class="n">J_E2</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="n">J_21</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])</span>
+    <span class="n">dly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+    <span class="n">synspecs</span> <span class="o">=</span> <span class="p">[[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">synspecs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ctype&#39;</span><span class="p">:</span><span class="n">tps</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">],</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span><span class="n">dly</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]}</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">nrns</span><span class="p">,</span> <span class="n">nrns</span><span class="p">,</span> <span class="n">synspecs</span><span class="p">)</span>
+
+    <span class="c1"># simulation</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># coincidence</span>
+    <span class="n">binwindow</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">5.0</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">spike_trains</span> <span class="o">=</span> <span class="p">[</span><span class="n">nrn</span><span class="o">.</span><span class="n">states</span> <span class="k">for</span> <span class="n">nrn</span> <span class="ow">in</span> <span class="n">nrns</span><span class="p">]</span>
+    <span class="n">bin_spikes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">strain</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">binwindow</span><span class="p">),</span> <span class="s1">&#39;same&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">strain</span> <span class="ow">in</span> <span class="n">spike_trains</span><span class="p">]</span>
+    <span class="n">deltats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+    <span class="n">coins_all</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">tar</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]):</span>
+        <span class="n">coins</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">delay</span> <span class="ow">in</span> <span class="n">deltats</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">delay</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">coins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="n">src</span><span class="p">][:</span><span class="o">-</span><span class="n">index</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="n">tar</span><span class="p">][</span><span class="n">index</span><span class="p">:]))</span>
+            <span class="k">elif</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">coins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="n">tar</span><span class="p">][:</span><span class="n">index</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="n">src</span><span class="p">][</span><span class="o">-</span><span class="n">index</span><span class="p">:]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">coins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="n">src</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="n">tar</span><span class="p">]))</span>
+        <span class="n">coins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="n">src</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="n">src</span><span class="p">]))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bin_spikes</span><span class="p">[</span><span class="n">tar</span><span class="p">],</span> <span class="n">bin_spikes</span><span class="p">[</span><span class="n">tar</span><span class="p">]))</span>
+        <span class="n">coins_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span>
+
+    <span class="c1"># visualize</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">]</span>  
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;raster&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">nrn</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nrns</span><span class="p">,</span> <span class="n">cs</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">eventplot</span><span class="p">(</span><span class="n">nrn</span><span class="o">.</span><span class="n">spikes</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">],</span> <span class="n">lineoffsets</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time(ms)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$I_1$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;$I_2$&#39;</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span>
+
+    <span class="c1"># rate plots of population</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;spike correlation&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">deltats</span><span class="p">,</span> <span class="n">coins_all</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$E-I_1$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\delta t$(ms)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;spike corr&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">deltats</span><span class="p">,</span> <span class="n">coins_all</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$E-I_2$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\delta t$(ms)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;spike corr&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="c1"># voltage trace</span>
+    <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">cs</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="nb">id</span><span class="o">+</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;voltage trace&#39;</span><span class="p">)</span>
+        <span class="n">plt_par</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dt&#39;</span><span class="p">:</span><span class="n">dt</span><span class="p">,</span> <span class="s1">&#39;range_t&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">),</span> <span class="s1">&#39;V_th&#39;</span><span class="p">:</span><span class="n">nrns</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">V_th</span><span class="p">}</span>
+        <span class="n">plot_volt_trace</span><span class="p">(</span><span class="n">plt_par</span><span class="p">,</span> <span class="n">nrns</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nrns</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">spikes</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">]),</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span>
+        
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+      
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fig_EII</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Init figure&quot;</span><span class="p">)</span>
+
+<span class="n">fig_EII</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">widgets</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">update_EII</span><span class="p">,</span> <span class="n">Itype</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Icur&#39;</span><span class="p">,</span> <span class="s1">&#39;Gaussian&#39;</span><span class="p">,</span> <span class="s1">&#39;Poisson&#39;</span><span class="p">],</span> 
+                 <span class="n">neuron_E</span><span class="o">=</span><span class="n">neuron_params</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">neuron_I1</span><span class="o">=</span><span class="n">neuron_params</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">neuron_I2</span><span class="o">=</span><span class="n">neuron_params</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> 
+                 <span class="n">J_E1</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">50.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">J_E2</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">50.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">J_21</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">50.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>Describe<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>What are the effects of each inhibitory connection?</p></li>
+<li><p>What circuit motifs (anatomical and functional) co-exist in this 3-neuron network?</p></li>
+<li><p>Does inhibitory connectivity always reduce the firing rate of excitatory neurons?</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>Think<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Does the input type influence the role of each connection?</p></li>
+<li><p>What is dominant here, network connectivity or the neuron type? In other words which of your observation are invariant to change in neuron type and which are dependent on neuron type.</p></li>
+</ul>
+</section>
+<section id="constructing-the-pyloric-circuit-30min">
+<h2>Constructing the pyloric circuit (30min)<a class="headerlink" href="#constructing-the-pyloric-circuit-30min" title="Link to this heading">#</a></h2>
+<p>In the following code we will realize the pyloric rhythm generator using our simplified neurons.</p>
+<img src="https://github.com/michaelglh/STG/blob/master/figs/pyloric_con.png?raw=1" alt="Pyloric circuit" width="1200"/><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Run the following to start pyloric circuit simulation { vertical-output: true }</span>
+<span class="c1"># experiment setting</span>
+<span class="n">T</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mf">5e2</span><span class="p">,</span> <span class="mf">0.1</span>        <span class="c1"># simulation period(ms), step size(ms)</span>
+
+<span class="c1"># AB-LP -0.79</span>
+<span class="c1"># AB-PY -0.07</span>
+<span class="c1"># VD-AB -0.04</span>
+
+<span class="c1"># neurons</span>
+<span class="n">nrn_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AB&#39;</span><span class="p">,</span> <span class="s1">&#39;VD&#39;</span><span class="p">,</span> <span class="s1">&#39;IC&#39;</span><span class="p">,</span> <span class="s1">&#39;PD&#39;</span><span class="p">,</span> <span class="s1">&#39;LP&#39;</span><span class="p">,</span> <span class="s1">&#39;PY&#39;</span><span class="p">]</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nrn_labels</span><span class="p">)</span>
+<span class="n">nrn_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bursting_neuron&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">N</span>
+<span class="n">rt</span> <span class="o">=</span> <span class="mf">50.</span>
+<span class="n">wts</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span><span class="o">*</span><span class="n">N</span>
+
+<span class="c1"># widget</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">GridspecLayout</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">signs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>  <span class="p">[</span><span class="mi">0</span> <span class="p">,</span> <span class="mi">1</span> <span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="mi">1</span> <span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">1</span> <span class="p">,</span> <span class="mi">1</span> <span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">wsize</span> <span class="o">=</span> <span class="s1">&#39;200px&#39;</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nrn_labels</span><span class="p">):</span>
+    <span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">wsize</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nrn_labels</span><span class="p">):</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">wsize</span><span class="p">))</span>
+<span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;J&#39;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">wsize</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">signs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">FloatSlider</span><span class="p">(</span><span class="nb">min</span><span class="o">=-</span><span class="mf">10.0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=-</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">wsize</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">wsize</span><span class="p">))</span>
+
+<span class="n">con_bars</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">tar</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nrn_labels</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">src</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nrn_labels</span><span class="p">):</span>
+        <span class="n">con_bars</span><span class="p">[</span><span class="s1">&#39;J_</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">tar</span><span class="p">,</span> <span class="n">src</span><span class="p">)]</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">con_pyloric</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># updating parameters</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">nrn_ticks</span> <span class="o">=</span> <span class="p">[</span><span class="n">nrn_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;Recorded lvn&#39;</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">update_pyloric</span><span class="p">(</span><span class="o">**</span><span class="n">con_dict</span><span class="p">):</span>
+    <span class="c1"># simualtor</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="c1"># network of neurons</span>
+    <span class="n">nrns</span> <span class="o">=</span> <span class="p">[</span><span class="n">LIF</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">nrn</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">ntype</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nrns</span><span class="p">,</span> <span class="n">nrn_labels</span><span class="p">,</span> <span class="n">nrn_types</span><span class="p">):</span>
+        <span class="n">nrn</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="n">nrn</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">neuron_params</span><span class="p">[</span><span class="n">ntype</span><span class="p">])</span>
+
+    <span class="c1"># background noise</span>
+    <span class="n">noises</span> <span class="o">=</span> <span class="p">[</span><span class="n">Current_injector</span><span class="p">(</span><span class="n">sim</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="n">rt</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="o">*</span><span class="mf">0.9</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">noise</span><span class="p">,</span> <span class="n">nrn</span><span class="p">,</span> <span class="n">wt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">noises</span><span class="p">,</span> <span class="n">nrns</span><span class="p">,</span> <span class="n">wts</span><span class="p">):</span>
+        <span class="n">nrn</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">noise</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;ctype&#39;</span><span class="p">:</span><span class="s1">&#39;Static&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span><span class="n">wt</span><span class="p">})</span>
+
+    <span class="c1"># recurrent connections</span>
+    <span class="n">tps</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Static&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="n">N</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">con_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+    <span class="k">global</span> <span class="n">con_pyloric</span>
+    <span class="n">con_pyloric</span> <span class="o">=</span> <span class="n">con_dict</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">signs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">tps</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Gap&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tps</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Static&#39;</span>
+    <span class="n">dly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+    <span class="n">synspecs</span> <span class="o">=</span> <span class="p">[[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">synspecs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ctype&#39;</span><span class="p">:</span><span class="n">tps</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">],</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span><span class="n">dly</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]}</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">nrns</span><span class="p">,</span> <span class="n">nrns</span><span class="p">,</span> <span class="n">synspecs</span><span class="p">)</span>
+
+    <span class="c1"># simulation</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># visualization</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;pyloric&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">nrn</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nrns</span><span class="p">,</span> <span class="n">cs</span><span class="p">,</span> <span class="n">indices</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">eventplot</span><span class="p">(</span><span class="n">nrn</span><span class="o">.</span><span class="n">spikes</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">],</span> <span class="n">lineoffsets</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">eventplot</span><span class="p">(</span><span class="n">nrns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">spikes</span><span class="p">[</span><span class="s1">&#39;times&#39;</span><span class="p">],</span> <span class="n">lineoffsets</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">N</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">cs</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time(ms)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span> <span class="n">nrn_ticks</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="k">try</span><span class="p">:</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fig_pyloric</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Init figure&quot;</span><span class="p">)</span>
+
+<span class="n">fig_pyloric</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">widget_pyloric</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">interactive_output</span><span class="p">(</span><span class="n">update_pyloric</span><span class="p">,</span> <span class="n">con_bars</span><span class="p">);</span>
+<span class="n">display</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">widget_pyloric</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h2>Describe<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Find the right combination of connection weights that generate the pyloric rhythm output as recorded from the lv nerve.</p></li>
+<li><p>Do you need very specific parameters for this 3-stage periodic pattern to emerge?</p></li>
+<li><p>Try to create two different sets of parameters that give you the pyloric rhythm. Write down the connectivity matrices (in a table) and snips of the neurons’ output that you get in your plots.</p></li>
+</ul>
+</section>
+<section id="id8">
+<h2>Think<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Compare your results with others’. How different are the connections?</p></li>
+<li><p>In some cases, drastically changing connections doesn’t seem to affect the output. Why do you think this happens? What would be the consequences?</p></li>
+<li><p>Can we compare these different solutions in a qualitative or even quantitative way to determine which parameter set is better? Or in your opinion, does this difference matter or not?</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "executablebooks/jupyter-book",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Lab1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neuron-model">Neuron model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#firing-patterns-of-a-single-neuron-15min">Firing patterns of a single neuron (15min)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#describe">Describe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus">Bonus</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#think">Think</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equations">Equations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synapse-model-5min">Synapse model (5min)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Describe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Think</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-activities-5min">Input activities (5min)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Bonus</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motifs">Motifs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functional-neural-motifs-20min">Functional neural motifs (20min)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Describe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-a-pair-of-neurons-the-influence-of-connections-is-straight-forward-how-will-the-situation-change-if-adding-one-more-neuron-in-the-lab-we-introduce-one-arbitrary-triplet-motif-with-only-inhibitory-connections">For a pair of neurons, the influence of connections is straight-forward. <em>How will the situation change if adding one more neuron?</em> In the lab, we introduce one arbitrary triplet motif with only inhibitory connections.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Describe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Think</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-the-pyloric-circuit-30min">Constructing the pyloric circuit (30min)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Describe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Think</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lihao Guo, Kumar Arvind
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
