@@ -9,12 +9,9 @@ chapters:
   - file: Lab1/neuron
   - file: Lab1/motif
   - file: Lab1/stg
-# - file: Lab2/index
-#   sections:
-#   - file: Lab2/STG
-#   - file: Lab2/Plasticity
-#   - file: Lab2/Encoding
+- file: Lab2/index
+  sections:
+  - file: Lab2/degeneracy
+  - file: Lab2/synplast
+  - file: Lab2/tuningcurve
 - file: material
-# - file: markdown
-# - file: notebooks
-# - file: markdown-notebooks
