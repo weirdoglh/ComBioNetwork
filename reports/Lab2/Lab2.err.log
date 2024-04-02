@@ -53,12 +53,12 @@ debug = 'google.colab' not in str(get_ipython())
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [0;32mIn[1], line 5[0m
-[1;32m      3[0m [38;5;28;01mfrom[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mwidgets[39;00m [38;5;28;01mimport[39;00m Slider
-[1;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m                      [38;5;66;03m# import numpy[39;00m
-[0;32m----> 5[0m [38;5;28;01mimport[39;00m [38;5;21;01mscipy[39;00m
+Cell [0;32mIn[1], line 7[0m
+[1;32m      5[0m [38;5;28;01mimport[39;00m [38;5;21;01mscipy[39;00m
 [1;32m      6[0m [38;5;28;01mimport[39;00m [38;5;21;01mipywidgets[39;00m [38;5;28;01mas[39;00m [38;5;21;01mwidgets[39;00m            [38;5;66;03m# interactive display[39;00m
-[1;32m      7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mgoogle[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcolab[39;00m [38;5;28;01mimport[39;00m output
+[0;32m----> 7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mgoogle[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcolab[39;00m [38;5;28;01mimport[39;00m output
+[1;32m      8[0m output[38;5;241m.[39menable_custom_widget_manager()
+[1;32m     10[0m [38;5;66;03m# setting for figures[39;00m
 
-[0;31mModuleNotFoundError[0m: No module named 'scipy'
+[0;31mModuleNotFoundError[0m: No module named 'google'
 
