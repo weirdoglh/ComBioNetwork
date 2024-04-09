@@ -11,8 +11,7 @@ The computational property of the brain simply means what arithmetic or non-arit
 In the following sections, we will build models from a single neuron, to a small motif, and finally to an STG network.
 
 ## Introductory Presentation
-<iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://drive.google.com/uc?export=download&id=1M9cNtkS-0DrsgeR5JWav9_Os0u2CbbqZ" style="width:100%; height:600px;" frameborder="0"></iframe>
-
+https://drive.google.com/file/d/1M9cNtkS-0DrsgeR5JWav9_Os0u2CbbqZ/view?usp=drive_link
 
 ## Contents
 1. A spiking neuron.
