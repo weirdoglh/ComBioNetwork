@@ -1,0 +1,56 @@
+name: deploy-separate-url
+
+# Run this when any branch changes
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - book/**
+
+# This job installs dependencies, builds the book, and pushes it to a separate URL
+jobs:
+  deploy-book:
+    runs-on: ubuntu-latest
+    environment:
+      name: separate-url
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Install dependencies
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        pip install -r book/requirements.txt
+
+    # (optional) Cache your executed notebooks between runs
+    - name: Cache executed notebooks
+      uses: actions/cache@v4
+      with:
+        path: book/_build/.jupyter_cache
+        key: jupyter-book-cache-${{ hashFiles('book/requirements.txt') }}
+
+    # Build the book
+    - name: Build the book
+      run: |
+        jupyter-book build book
+
+    # Upload the book's HTML as an artifact
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: book-html
+        path: book/_build/html
+
+    # Deploy the book's HTML to the separate URL
+    - name: Deploy to Separate URL
+      uses: JamesIves/github-pages-deploy-action@4.1.5
+      with:
+        branch: gh-pages
+        folder: book/_build/html
+        token: ${{ secrets.GH_PAT }}
