@@ -1,0 +1,72 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+#@title Run the following to initialize lab environment.
+
+!pip install ipympl ipywidgets stg-net -q
+
+import matplotlib.pyplot as plt         # import matplotlib
+from matplotlib.widgets import Slider
+import numpy as np                      # import numpy
+import ipywidgets as widgets            # interactive display
+
+# Colab setting for widget
+try:
+    from google.colab import output
+    output.enable_custom_widget_manager()
+except ImportError:
+    pass
+
+# modeling library
+from stg_net.neuron import LIF
+from stg_net.input import Poisson_generator, Gaussian_generator, Current_injector
+from stg_net.conn import Simulator
+from stg_net.helper import plot_volt_trace
+
+# setting for figures
+fig_w, fig_h = 8, 6
+my_fontsize = 18
+my_params = {'axes.labelsize': my_fontsize,
+          'axes.titlesize': my_fontsize,
+          'figure.figsize': (fig_w, fig_h),
+          'font.size': my_fontsize,
+          'legend.fontsize': my_fontsize-4,
+          'lines.markersize': 8.,
+          'lines.linewidth': 2.,
+          'xtick.labelsize': my_fontsize-2,
+          'ytick.labelsize':iasvfdaafa my_fontsize-2}
+plt.rcParams.update(my_params)
+my_layout = widgets.Layout()
+
+# Auto Reloading
+%load_ext autoreload
+%autoreload 2
+
+# Widget interaction
+%matplotlib widget
+------------------
+
+
+[0;36m  Cell [0;32mIn[1], line 34[0;36m[0m
+[0;31m    'ytick.labelsize':iasvfdaafa my_fontsize-2}[0m
+[0m                      ^[0m
+[0;31mSyntaxError[0m[0;31m:[0m invalid syntax. Perhaps you forgot a comma?
+
+
