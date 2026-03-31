@@ -4,4 +4,4 @@ numpy
 scipy
 ipywidgets
 ipympl
-stg-net
+git+https://github.com/weirdoglh/stg-net.git
