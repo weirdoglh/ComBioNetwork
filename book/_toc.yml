@@ -1,6 +1,4 @@
 # Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
-
 format: jb-book
 root: intro
 chapters:
@@ -8,10 +6,12 @@ chapters:
   sections:
   - file: Lab1/neuron
   - file: Lab1/motif
-  - file: Lab1/stg
 - file: Lab2/index
   sections:
+  - file: Lab2/stg
   - file: Lab2/degeneracy
-  - file: Lab2/synplast
-  - file: Lab2/tuningcurve
+- file: Lab3/index
+  sections:
+  - file: Lab3/synplast
+  - file: Lab3/tuningcurve
 - file: material
